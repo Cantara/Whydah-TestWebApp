@@ -26,8 +26,8 @@
     </parent>
 
     <scm>
-        <developerConnection>scm:git:ssh://git@github.com/altran/Whydah-TestWebApp.git</developerConnection>
-        <connection>scm:git:https://github.com/altran/Whydah-TestWebApp.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/cantara/Whydah-TestWebApp.git</developerConnection>
+        <connection>scm:git:https://github.com/cantara/Whydah-TestWebApp.git</connection>
         <url>https://github.com/altran/Whydah-TestWebApp</url>
       <tag>HEAD</tag>
   </scm>
