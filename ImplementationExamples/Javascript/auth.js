@@ -48,7 +48,7 @@ var auth = ( function () {
         var appTokenXml = logonApplication();
         var myAppTokenId = getTokenIdFromAppToken(appTokenXml);
 
-        var url = tokenServiceUrl + "user/" + myAppTokenId + "/get_usertoken_by_"+type+"id";
+        var url = tokenServiceUrl + "user/" + myAppTokenId + "/get_usertoken_by_userticket";
 
         var req = new XMLHttpRequest();
         req.open("POST", url, false);
