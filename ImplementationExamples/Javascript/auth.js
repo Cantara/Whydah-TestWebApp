@@ -54,7 +54,7 @@ var auth = ( function () {
         req.open("POST", url, false);
         req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
         req.send(
-            'apptoken=' + escape(appTokenXml) + 
+            'apptoken=' + encodeURI(appTokenXml) + 
             '&userticket=' + id
             );
 
@@ -73,7 +73,7 @@ var auth = ( function () {
                     + "<applicationSecret>" + appSecret + "</applicationSecret>"
                 + "</params>"
             + "</applicationcredential>";
-        appCred = escape(appCred);
+        appCred = encodeURI(appCred);
 
         var req = new XMLHttpRequest();
         req.open("POST", url, false);
