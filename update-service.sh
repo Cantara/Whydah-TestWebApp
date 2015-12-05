@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 A=TestWebApp
 V=SNAPSHOT
