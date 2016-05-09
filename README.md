@@ -1,6 +1,11 @@
 Whydah-TestWebApp
 =================
 
+
+NOTE: This repository is sereiously lagging behind the development of the Whydah modules and should only be used as study material until we have time to update the examples and codebase
+
+
+
 Reference application that requires log in.
 
 Goto http://localhost:9990/test/hello to trigger log in.
