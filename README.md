@@ -2,7 +2,11 @@ Whydah-TestWebApp
 =================
 
 
-NOTE: This repository is sereiously lagging behind the development of the Whydah modules and should only be used as study material until we have time to update the examples and codebase
+![Build Status](https://jenkins.capraconsulting.no/buildStatus/icon?job=Whydah-CRMService) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)  
+
+[![Known Vulnerabilities](https://snyk.io/test/github/Cantara/Whydah-CRMService/badge.svg)](https://snyk.io/test/github/Cantara/Whydah-CRMService)
+
+NOTE: This repository is lagging behind the development of the Whydah modules and should only be used as study material until we have time to update the examples and codebase
 
 
 
