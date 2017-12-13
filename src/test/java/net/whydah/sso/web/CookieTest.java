@@ -31,19 +31,14 @@ public class CookieTest {
     private static final char DOT = '.';
 
     private static DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-    private static ServerRunner serverRunner;
 
     @BeforeClass
     public static void beforeClass() throws Exception {
         System.setProperty(ApplicationMode.IAM_MODE_KEY, ApplicationMode.TEST_L);
-
-        serverRunner = new ServerRunner();
-        serverRunner.start();
     }
 
     @AfterClass
     public static void shutdown() throws Exception {
-        serverRunner.stop();
     }
 
     @Before
