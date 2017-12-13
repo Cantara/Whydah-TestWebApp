@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.whydah.sso.web</groupId>
     <artifactId>TestWebApp</artifactId>
-    <version>2.4-rc-3-SNAPSHOT</version>
+    <version>2.3.85-SNAPSHOT</version>
     <name>TestWebApp</name>
     <url>https://wiki.cantara.no/display/iam/TestWebApp</url>
 
@@ -122,7 +122,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.13.RELEASE</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
