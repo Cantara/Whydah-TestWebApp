@@ -10,6 +10,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import java.net.URL;
 
+
 public class ServerRunner {
     private static final Logger log = LoggerFactory.getLogger(ServerRunner.class);
     public static int PORT_NO = 9990;
