@@ -17,6 +17,7 @@ import java.util.Date;
 
 /**
  * Loosely based upon code from Gunnar Skjold (Origin AS)
+ *
  * @author Gunnar Skjold
  * @author <a href="bard.lind@gmail.com">Bard Lind</a>
  */
@@ -24,60 +25,61 @@ import java.util.Date;
 public class WhydahLogonToken {
     private static final Logger log = LoggerFactory.getLogger(WhydahLogonToken.class);
 
-	private WhydahTokenParams params;
+    private WhydahTokenParams params;
 
-	protected WhydahLogonToken() {
-	}
+    protected WhydahLogonToken() {
+    }
 
-	@XmlElement(name = "params")
-	protected WhydahTokenParams getParams() {
+    @XmlElement(name = "params")
+    protected WhydahTokenParams getParams() {
         if (params == null) {
             setParams(new WhydahTokenParams());
         }
-		return params;
-	}
+        return params;
+    }
 
-	protected void setParams(WhydahTokenParams params) {
-		this.params = params;
-	}
+    protected void setParams(WhydahTokenParams params) {
+        this.params = params;
+    }
 
 
-	public String getApplicationtokenID() {
-		return getParams().getApplicationtokenID();
-	}
+    public String getApplicationtokenID() {
+        return getParams().getApplicationtokenID();
+    }
 
-	public String getApplicationid() {
-		return getParams().getApplicationid();
-	}
+    public String getApplicationid() {
+        return getParams().getApplicationid();
+    }
 
-	public String getApplicationname() {
+    public String getApplicationname() {
         return getParams().getApplicationname();
-	}
+    }
 
-	public Date getExpires() {
+    public Date getExpires() {
         Date expires = getParams().getExpires();
         if (expires == null) {
             expires = new Date(0);
         }
-		return expires;
-	}
+        return expires;
+    }
 
-	public boolean isExpired() {
-		return params == null ? true : params.expires == null ? true : params.expires.before(new Date());
-	}
+    public boolean isExpired() {
+        return params == null ? true : params.expires == null ? true : params.expires.before(new Date());
+    }
 
     /**
      * Expect incoming xml to look like this
      * <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-     <applicationtoken>
-     <params>
-     <applicationtokenID>7d390d1cdcb504be1af5c3fb3a067e5d</applicationtokenID>
-     <applicationid>Your Application</applicationid>
-     <applicationname>null</applicationname>
-     <expires>1412076042672</expires>
-     </params>
-     <Url type="application/xml" method="POST"                 template="nulluser/7d390d1cdcb504be1af5c3fb3a067e5d/get_usertoken_by_usertokenid"/>
-     </applicationtoken>
+     * <applicationtoken>
+     * <params>
+     * <applicationtokenID>7d390d1cdcb504be1af5c3fb3a067e5d</applicationtokenID>
+     * <applicationid>Your Application</applicationid>
+     * <applicationname>null</applicationname>
+     * <expires>1412076042672</expires>
+     * </params>
+     * <Url type="application/xml" method="POST"                 template="nulluser/7d390d1cdcb504be1af5c3fb3a067e5d/get_usertoken_by_usertokenid"/>
+     * </applicationtoken>
+     *
      * @param logonResult
      * @return
      */
@@ -96,7 +98,7 @@ public class WhydahLogonToken {
             logonToken.getParams().setApplicationid(applicationid);
             String applicationName = (String) xPath.evaluate("/applicationtoken/params/applicationname", doc, XPathConstants.STRING);
             logonToken.getParams().setApplicationname(applicationName);
-            String expires = (String ) xPath.evaluate("/applicationtoken/params/expires", doc, XPathConstants.STRING);
+            String expires = (String) xPath.evaluate("/applicationtoken/params/expires", doc, XPathConstants.STRING);
             if (expires != null && !expires.isEmpty()) {
                 Long longDate = new Long(expires);
                 logonToken.getParams().setExpires(new Date(longDate));
@@ -143,39 +145,39 @@ public class WhydahLogonToken {
     }
 
     private static class WhydahTokenParams {
-		private String applicationtokenID, applicationid, applicationname;
-		private Date expires;
+        private String applicationtokenID, applicationid, applicationname;
+        private Date expires;
 
-		public String getApplicationtokenID() {
-			return applicationtokenID;
-		}
+        public String getApplicationtokenID() {
+            return applicationtokenID;
+        }
 
-		public void setApplicationtokenID(String applicationtokenID) {
-			this.applicationtokenID = applicationtokenID;
-		}
+        public void setApplicationtokenID(String applicationtokenID) {
+            this.applicationtokenID = applicationtokenID;
+        }
 
-		public String getApplicationid() {
-			return applicationid;
-		}
+        public String getApplicationid() {
+            return applicationid;
+        }
 
-		public void setApplicationid(String applicationid) {
-			this.applicationid = applicationid;
-		}
+        public void setApplicationid(String applicationid) {
+            this.applicationid = applicationid;
+        }
 
-		public String getApplicationname() {
-			return applicationname;
-		}
+        public String getApplicationname() {
+            return applicationname;
+        }
 
-		public void setApplicationname(String applicationname) {
-			this.applicationname = applicationname;
-		}
+        public void setApplicationname(String applicationname) {
+            this.applicationname = applicationname;
+        }
 
-		public Date getExpires() {
-			return expires;
-		}
+        public Date getExpires() {
+            return expires;
+        }
 
-		public void setExpires(Date expires) {
-			this.expires = expires;
-		}
-	}
+        public void setExpires(Date expires) {
+            this.expires = expires;
+        }
+    }
 }

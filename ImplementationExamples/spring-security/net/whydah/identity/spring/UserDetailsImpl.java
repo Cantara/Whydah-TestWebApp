@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * An implementation of springs {@link UserDetails}
  * Loosely based upon code from Gunnar Skjold (Origin AS)
+ *
  * @author Gunnar Skjold
  * @author <a href="bard.lind@gmail.com">Bard Lind</a>
- * 
  */
 public class UserDetailsImpl implements User<String>, UserDetails {
     private static final long serialVersionUID = 1L;
@@ -41,11 +41,11 @@ public class UserDetailsImpl implements User<String>, UserDetails {
         middleName = null;
         lastName = userToken.getLastname();
         String fullName = "";
-        if(firstName != null)
+        if (firstName != null)
             fullName += firstName;
-        if(middleName != null)
+        if (middleName != null)
             fullName += " " + middleName;
-        if(lastName != null)
+        if (lastName != null)
             fullName += " " + lastName;
         this.fullName = fullName.trim();
         expired = logonToken.isExpired();
@@ -56,12 +56,13 @@ public class UserDetailsImpl implements User<String>, UserDetails {
         ArrayList<WhydahApplication> applications = userToken.getApplications();
         if (applications != null) {
             for (WhydahApplication app : applications) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS_USER"));
                 for (WhydahRole role : app.getOrganization().getRoles()) {
-                        String springRole = "ROLE_" + role.getName().toUpperCase();
-                        authorities.add(new SimpleGrantedAuthority(springRole));
-                        if (springRole.equals("ROLE_ADMIN")) {
-                            admin = true;
-                   //     }
+                    String springRole = "ROLE_" + role.getName().toUpperCase();
+                    authorities.add(new SimpleGrantedAuthority(springRole));
+                    if (springRole.equals("ROLE_ADMIN")) {
+                        admin = true;
+                        //     }
                     }
                 }
             }

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 /**
  * Loosely based upon code from Gunnar Skjold (Origin AS)
+ *
  * @author Gunnar Skjold
  * @author <a href="bard.lind@gmail.com">Bard Lind</a>
  */
@@ -30,8 +31,8 @@ public class WhydahApplication {
     private final String defaultRole;
     private final String defaultOrgId;
     private String id;
-	private String applicationName;
-	private WhydahOrganization organization;
+    private String applicationName;
+    private WhydahOrganization organization;
     private ArrayList<String> availableOrgIds = new ArrayList<>();
 
     public WhydahApplication(String id, String name, String defaultrole, String defaultorgid) {
@@ -42,30 +43,30 @@ public class WhydahApplication {
     }
 
     @XmlAttribute(name = "ID")
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getApplicationName() {
-		return applicationName;
-	}
+    public String getApplicationName() {
+        return applicationName;
+    }
 
-	public void setApplicationName(String applicationName) {
-		this.applicationName = applicationName;
-	}
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
 
-	@XmlElement(name = "organization")
-	public WhydahOrganization getOrganization() {
-		return organization;
-	}
+    @XmlElement(name = "organization")
+    public WhydahOrganization getOrganization() {
+        return organization;
+    }
 
-	public void setOrganization(WhydahOrganization organization) {
-		this.organization = organization;
-	}
+    public void setOrganization(WhydahOrganization organization) {
+        this.organization = organization;
+    }
 
     public String getDefaultRole() {
         return defaultRole;
@@ -83,13 +84,14 @@ public class WhydahApplication {
             DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
             Document doc = documentBuilder.parse(new InputSource(new StringReader(applicationXml)));
             XPath xPath = XPathFactory.newInstance().newXPath();
-            String id = (String) xPath.evaluate("/application/applicationid", doc, XPathConstants.STRING);
-            String name = (String) xPath.evaluate("/application/applicationname", doc, XPathConstants.STRING);
-            String defaultrole = (String) xPath.evaluate("/application/defaultrole", doc, XPathConstants.STRING);
-            String defaultorgid = (String) xPath.evaluate("/application/defaultorgid", doc, XPathConstants.STRING);
+            String id = (String) xPath.evaluate("/application/appId", doc, XPathConstants.STRING);
+            String name = (String) xPath.evaluate("/application/applicationName", doc, XPathConstants.STRING);
+            String defaultrole = (String) xPath.evaluate("/application/roleName", doc, XPathConstants.STRING);
+            String defaultorgid = (String) xPath.evaluate("/application/roleValue", doc, XPathConstants.STRING);
             NodeList availableOrgIds = (NodeList) xPath.evaluate("/application/availableOrgIds/orgId", doc, XPathConstants.NODESET);
 
-            application = new WhydahApplication(id,name,defaultrole, defaultorgid);
+
+            application = new WhydahApplication(id, name, defaultrole, defaultorgid);
             if (availableOrgIds != null && availableOrgIds.getLength() > 0) {
                 for (int i = 0; i < availableOrgIds.getLength(); i++) {
                     Node node = availableOrgIds.item(i);
@@ -112,4 +114,15 @@ public class WhydahApplication {
         availableOrgIds.add(orgId);
     }
 
+    @Override
+    public String toString() {
+        return "WhydahApplication{" +
+                "defaultRole='" + defaultRole + '\'' +
+                ", defaultOrgId='" + defaultOrgId + '\'' +
+                ", id='" + id + '\'' +
+                ", applicationName='" + applicationName + '\'' +
+                ", organization=" + organization +
+                ", availableOrgIds=" + availableOrgIds +
+                '}';
+    }
 }

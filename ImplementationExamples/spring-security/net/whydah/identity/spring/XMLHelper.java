@@ -19,7 +19,8 @@ public class XMLHelper {
     private DocumentBuilder documentBuilder;
     private Document doc;
     private XPath xPath;
-    public XMLHelper(String logonResult) throws Exception{
+
+    public XMLHelper(String logonResult) throws Exception {
         dbf = DocumentBuilderFactory.newInstance();
         documentBuilder = dbf.newDocumentBuilder();
         doc = documentBuilder.parse(new InputSource(new StringReader(logonResult)));
@@ -30,7 +31,7 @@ public class XMLHelper {
         return (String) xPath.evaluate(path, doc, XPathConstants.STRING);
     }
 
-    public Long findLong(String path) throws XPathExpressionException, NumberFormatException{
+    public Long findLong(String path) throws XPathExpressionException, NumberFormatException {
         String xmlValue = findString(path);
         Long number = null;
         if (xmlValue != null && !xmlValue.isEmpty()) {
@@ -39,7 +40,7 @@ public class XMLHelper {
         return number;
     }
 
-    public NodeList findNodes(String path) throws XPathExpressionException{
+    public NodeList findNodes(String path) throws XPathExpressionException {
         return (NodeList) xPath.compile(path).evaluate(doc, XPathConstants.NODESET);
     }
 
@@ -55,7 +56,7 @@ public class XMLHelper {
         String nodeTxt = "Node:";
         NamedNodeMap nl = node.getAttributes();
         int length = nl.getLength();
-        for( int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             Attr attr = (Attr) nl.item(i);
             String name = attr.getName();
             String value = attr.getValue();
@@ -72,7 +73,7 @@ public class XMLHelper {
     public static String findNodeValue(Element firstElement, String name) {
         String nodeValue = null;
         NodeList firstNameList = firstElement.getElementsByTagName(name);
-        Element firstNameElement = (Element)firstNameList.item(0);
+        Element firstNameElement = (Element) firstNameList.item(0);
 
         NodeList textFNList = firstNameElement.getChildNodes();
 
