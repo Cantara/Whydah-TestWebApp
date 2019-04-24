@@ -2,6 +2,8 @@ package net.whydah.identity.spring;
 
 import ai.quadim.cv.api.web.CvController;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.whydah.sso.application.types.ApplicationToken;
+import net.whydah.sso.user.types.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,8 @@ public class WhydahEntryPoint implements AuthenticationEntryPoint {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
+    private CvController cvController;
 
     @Autowired
     private WhydahAuthenticationProvider authenticationManager;
@@ -44,14 +48,14 @@ public class WhydahEntryPoint implements AuthenticationEntryPoint {
 
         String ticket = request.getParameter("userticket");
         if (ticket != null && !ticket.trim().isEmpty()) {
-            WhydahLogonToken applicationToken = whydahService.applicationLogon();
+            ApplicationToken applicationToken = whydahService.applicationLogon();
             // application logon
             // 201, 400, 406, 500, 501
             // get user token
             // 201, 400, 404, 406, 415, 500, 501
             // Auth complete
 
-            WhydahUserToken userToken = whydahService.getUserToken(applicationToken, ticket);
+            UserToken userToken = whydahService.getUserToken(applicationToken, ticket);
             String username = userToken.getEmail(); // TODO
             User user = new UserDetailsImpl(applicationToken, userToken);
 
@@ -64,10 +68,10 @@ public class WhydahEntryPoint implements AuthenticationEntryPoint {
             response.setStatus(HttpServletResponse.SC_OK);
             // set up the response body
             // write the response body
-            objectMapper.writeValue(response.getOutputStream(), "html-content from the default resource or some more logic...");
+            objectMapper.writeValue(response.getOutputStream(), cvController.searchForCV(response));
             // commit the response
             response.flushBuffer();//            response.sendRedirect(response.encodeRedirectURL(returnUrl));
-            //           response.sendRedirect(returnUrl);   // will fail on CSRF validation
+            //           response.sendRedirect(returnUrl);
         } else {
             // Redirect to whydah.
             response.sendRedirect(response.encodeRedirectURL(String.format("%s/login?redirectURI=%s", whydahService.getSsoUrl(), returnUrl)));

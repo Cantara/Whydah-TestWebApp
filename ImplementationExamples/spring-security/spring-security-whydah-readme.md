@@ -10,7 +10,9 @@ Some links to setting up Spring Security for Spring Boot
  * https://www.baeldung.com/spring-security-multiple-entry-points
  
  In short, we have added a WebSecurityWhydahConfiguration which in its simplest form will look something like this
- 
+
+
+## Example configuration config 
  ````
  package api.auth;
  
@@ -64,3 +66,38 @@ Some links to setting up Spring Security for Spring Boot
  }
  ````
   
+  
+## Example maven config   
+ ````
+ 	<properties>
+ 		<java.version>1.8</java.version>
+ 		<whydah-typelib-version>2.5.3</whydah-typelib-version>
+ 	</properties>
+ 	
+ 	...
+ 	
+  	<repositories>
+  		<!-- Needed for parent  -->
+  		<repository>
+  			<id>cantara-releases</id>
+  			<name>Cantara Release Repository</name>
+  			<url>https://mvnrepo.cantara.no/content/repositories/releases/</url>
+  		</repository>
+  		<repository>
+  			<id>cantara-snapshots</id>
+  			<name>Cantara Snapshot Repository</name>
+  			<url>https://mvnrepo.cantara.no/content/repositories/snapshots/</url>
+  		</repository>
+  
+  	</repositories>
+...
+    <dependencies>
+		<dependency>
+			<groupId>net.whydah.sso</groupId>
+			<artifactId>Whydah-TypeLib</artifactId>
+			<version>${whydah-typelib-version}</version>
+		</dependency>
+
+	</dependencies>
+ ````
+

@@ -1,5 +1,8 @@
 package net.whydah.identity.spring;
 
+import net.whydah.sso.application.types.ApplicationToken;
+import net.whydah.sso.user.types.UserApplicationRoleEntry;
+import net.whydah.sso.user.types.UserToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,14 +35,14 @@ public class UserDetailsImpl implements User<String>, UserDetails {
         admin = true;
     }
 
-    public UserDetailsImpl(WhydahLogonToken logonToken, WhydahUserToken userToken) {
-        userId = userToken.getId();
+    public UserDetailsImpl(ApplicationToken logonToken, UserToken userToken) {
+        userId = userToken.getUid();
         countryId = null; //TODO
         username = userToken.getEmail(); // TODO
         password = salt = null;
-        firstName = userToken.getFirstname();
+        firstName = userToken.getFirstName();
         middleName = null;
-        lastName = userToken.getLastname();
+        lastName = userToken.getLastName();
         String fullName = "";
         if (firstName != null)
             fullName += firstName;
@@ -48,24 +51,24 @@ public class UserDetailsImpl implements User<String>, UserDetails {
         if (lastName != null)
             fullName += " " + lastName;
         this.fullName = fullName.trim();
-        expired = logonToken.isExpired();
+        expired = false;//logonToken.();
         temporaryPassword = false;
 
         boolean admin = false;
         //List applications the user has access to.
-        ArrayList<WhydahApplication> applications = userToken.getApplications();
-        if (applications != null) {
-            for (WhydahApplication app : applications) {
+        List<UserApplicationRoleEntry> roleList = userToken.getRoleList();
+        if (roleList != null) {
+            for (UserApplicationRoleEntry role : roleList) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_ANONYMOUS_USER"));
-                for (WhydahRole role : app.getOrganization().getRoles()) {
-                    String springRole = "ROLE_" + role.getName().toUpperCase();
+
+                String springRole = "ROLE_" + role.getRoleName().toUpperCase();
                     authorities.add(new SimpleGrantedAuthority(springRole));
                     if (springRole.equals("ROLE_ADMIN")) {
                         admin = true;
                         //     }
                     }
                 }
-            }
+
         }
 
         this.admin = admin;

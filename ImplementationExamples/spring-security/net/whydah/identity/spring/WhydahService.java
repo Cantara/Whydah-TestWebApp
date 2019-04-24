@@ -1,5 +1,9 @@
 package net.whydah.identity.spring;
 
+import net.whydah.sso.application.mappers.ApplicationTokenMapper;
+import net.whydah.sso.application.types.ApplicationToken;
+import net.whydah.sso.user.mappers.UserTokenMapper;
+import net.whydah.sso.user.types.UserToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +33,10 @@ public class WhydahService {
 
     private RestTemplate restTemplate;
 
-    @Value("${whydah.ssoBaseUrl:https://devtest.cantara.no/sso/}")
+    @Value("${whydah.ssoBaseUrl:https://test.quadim.ai/sso/}")
     private String ssoUrl;
 
-    @Value("${whydah.stsBaseUrl:https://devtest.cantara.no/tokenservice/}")
+    @Value("${whydah.stsBaseUrl:https://test.quadim.ai/tokenservice/}")
     private String tokeservice;
 
     @Value("${whydah.applicationId:101}")
@@ -49,7 +53,7 @@ public class WhydahService {
         this.restTemplate = restTemplate;
     }
 
-    protected WhydahLogonToken applicationLogon() {
+    protected ApplicationToken applicationLogon() {
         String resourceUrl = "logon";
         String fullUrl = tokeservice + resourceUrl;
         Map<String, String> params = new HashMap<>();
@@ -60,23 +64,23 @@ public class WhydahService {
         String body = "applicationcredential=" + encodedCredential;
         String logonResult = post(fullUrl, body, params);
         log.info("Application logon {} ", logonResult);
-        WhydahLogonToken applicationToken = WhydahLogonToken.fromXml(logonResult);
+        ApplicationToken applicationToken = ApplicationTokenMapper.fromXml(logonResult);
         return applicationToken;
     }
 
 
-    protected WhydahUserToken getUserToken(WhydahLogonToken applicationToken, String ticket) {
+    protected UserToken getUserToken(ApplicationToken applicationToken, String ticket) {
         String resourceUrl = "user/{applicationTokenId}/get_usertoken_by_userticket";
         String fullUrl = tokeservice + resourceUrl;
 
         Map<String, String> urlParams = new HashMap<>();
-        urlParams.put("applicationTokenId", applicationToken.getApplicationtokenID());
+        urlParams.put("applicationTokenId", applicationToken.getApplicationTokenId());
         MultiValueMap<String, String> formData = new LinkedMultiValueMap();
-        formData.add("apptoken", applicationToken.toXml());
+        formData.add("apptoken", ApplicationTokenMapper.toXML(applicationToken));
         formData.add("userticket", ticket);
         String result = post(fullUrl, formData, urlParams);
         log.info("Returned token:" + result);
-        WhydahUserToken userToken = WhydahUserToken.fromXml(result);
+        UserToken userToken = UserTokenMapper.fromUserTokenXml(result);
         log.info(userToken.toString());
         return userToken;
     }
