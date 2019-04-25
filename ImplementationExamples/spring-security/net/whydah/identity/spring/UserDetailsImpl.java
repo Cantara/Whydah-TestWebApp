@@ -22,23 +22,25 @@ public class UserDetailsImpl implements User<String>, UserDetails {
     private static final long serialVersionUID = 1L;
     private final String userId;
     private final Integer countryId;
-    private final String username, password, salt, firstName, middleName, lastName, fullName;
+    private final String username, password, salt, firstName, middleName, lastName, fullName, email, cellPhone;
     private final boolean expired, temporaryPassword, admin;
     private final List<GrantedAuthority> authorities = new ArrayList<>();
 
     protected UserDetailsImpl() {
         userId = null;
-        countryId = null;
-        username = password = salt = firstName = middleName = lastName = fullName = null;
-        expired = false;
+        countryId = 47;
+        username = password = salt = firstName = middleName = lastName = fullName = email = cellPhone = null;
+        expired = true;
         temporaryPassword = false;
         admin = true;
     }
 
     public UserDetailsImpl(ApplicationToken logonToken, UserToken userToken) {
         userId = userToken.getUid();
-        countryId = null; //TODO
-        username = userToken.getEmail(); // TODO
+        countryId = 47; //TODO
+        username = userToken.getUserName();
+        email = userToken.getEmail();
+        cellPhone = userToken.getCellPhone();
         password = salt = null;
         firstName = userToken.getFirstName();
         middleName = null;
@@ -63,9 +65,9 @@ public class UserDetailsImpl implements User<String>, UserDetails {
 
                 String springRole = "ROLE_" + role.getRoleName().toUpperCase();
                     authorities.add(new SimpleGrantedAuthority(springRole));
-                    if (springRole.equals("ROLE_ADMIN")) {
+                if (springRole.contains("ADMIN")) {
                         admin = true;
-                        //     }
+
                     }
                 }
 
@@ -100,6 +102,7 @@ public class UserDetailsImpl implements User<String>, UserDetails {
     public String getUsername() {
         return username;
     }
+
 
     //Spring UserDetails
     @Override
@@ -180,9 +183,13 @@ public class UserDetailsImpl implements User<String>, UserDetails {
 
     @Override
     public String getEmail() {
-        return username;
+        return email;
     }
 
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
     /**
      * The internal numeric identifier for the country that the user has been assigned as a national administrator.
      *
