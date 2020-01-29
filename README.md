@@ -6,7 +6,7 @@ Whydah-TestWebApp
 
 NOTE: This repository is lagging behind the development of the Whydah modules and should only be used as study material until we have time to update the examples and codebase
 
-[![Build Status](https://jenkins.catalystonedev.ninja/buildStatus/icon?job=ccmkube-backend)](https://jenkins.catalystonedev.ninja/view/Build%20Status%20Dashboard/job/ccmkube-backend/)
+
 
 Reference application that requires log in.
 
