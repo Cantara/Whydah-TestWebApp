@@ -34,7 +34,7 @@
 
 
     <properties>
-        <spring.version>5.3.5</spring.version>
+        <spring.version>5.3.6</spring.version>
         <jersey.version>2.34</jersey.version>
         <jetty.version>9.4.40.v20210413</jetty.version>
     </properties>
@@ -220,8 +220,8 @@
                                 </excludes>
                             </artifactSet>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                     <resource>META-INF/spring.handlers</resource>
                                 </transformer>
