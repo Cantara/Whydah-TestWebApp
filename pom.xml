@@ -34,7 +34,7 @@
 
 
     <properties>
-        <spring.version>5.3.39</spring.version>
+        <spring.version>6.2.1</spring.version>
         <jersey.version>3.1.9</jersey.version>
         <jetty.version>9.4.56.v20240826</jetty.version>
     </properties>
