@@ -35,7 +35,7 @@ public class XMLHelper {
         String xmlValue = findString(path);
         Long number = null;
         if (xmlValue != null && !xmlValue.isEmpty()) {
-            number = new Long(xmlValue);
+            number = Long.valueOf(xmlValue);
         }
         return number;
     }
