@@ -36,7 +36,7 @@
     <properties>
         <jdk.version>21</jdk.version>
         <spring.version>5.3.39</spring.version>
-        <jersey.version>3.1.10</jersey.version>
+        <jersey.version>3.1.11</jersey.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.release>21</maven.compiler.release>
