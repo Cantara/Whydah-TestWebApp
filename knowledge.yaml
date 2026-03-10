@@ -1,0 +1,21 @@
+id: TestWebApp
+name: Whydah Test Web Application
+version: 2.30.0-SNAPSHOT
+description: |
+  Test and demonstration web application for the Whydah SSO platform. Used to
+  verify login flows, token validation, and role-based access in a controlled
+  environment.
+units:
+  - id: test-app
+    name: Test Application
+    type: webapp
+    description: Whydah integration test application shell with embedded Jetty server.
+    path: src/main/java/net/whydah
+  - id: sso-integration
+    name: SSO Integration
+    type: component
+    description: SSO login and logout flow demonstration using the Whydah Java SDK.
+  - id: protected-resources
+    name: Protected Resources
+    type: component
+    description: Example pages protected by role-based access control to validate authorisation.
