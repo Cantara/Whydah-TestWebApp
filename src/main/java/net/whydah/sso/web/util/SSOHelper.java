@@ -1,7 +1,8 @@
 package net.whydah.sso.web.util;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
 import net.whydah.sso.config.AppConfig;
 import net.whydah.sso.web.data.ApplicationCredential;
 import org.apache.http.HttpResponse;
@@ -15,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
-import javax.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URI;
@@ -25,7 +26,7 @@ import java.util.List;
 public class SSOHelper {
     private static final Logger log = LoggerFactory.getLogger(SSOHelper.class);
     final URI BASE_URI;
-    private WebResource tokenServiceResource;
+    private WebTarget tokenServiceResource;
     private String applicationid;
     private String applicationname;
     private String applicationsecret;
@@ -35,8 +36,8 @@ public class SSOHelper {
 
 //        SSLTool.disableCertificateValidation();
         BASE_URI = UriBuilder.fromUri(tokenServiceUri).build();
-        Client c = Client.create();
-        tokenServiceResource = c.resource(BASE_URI);
+        Client c = ClientBuilder.newClient();
+        tokenServiceResource = c.target(BASE_URI);
         HttpClient httpClient = new DefaultHttpClient();
         try {
             applicationname = AppConfig.readProperties().getProperty("applicationname");
@@ -53,12 +54,12 @@ public class SSOHelper {
 
 
     public String logonApplication() {
-        WebResource logonResource = tokenServiceResource.path("/logon");
-        String targetUrl = logonResource.getURI().toString();
+        WebTarget logonResource = tokenServiceResource.path("/logon");
+        String targetUrl = logonResource.getUri().toString();
         try {
             List<NameValuePair> postParameters = new ArrayList<>();
             postParameters.add(new BasicNameValuePair(RequestHelper.APPLICATIONCREDENTIAL, applicationCredential.toXML()));
-            URIBuilder uriBuilder = new URIBuilder(logonResource.toString());
+            URIBuilder uriBuilder = new URIBuilder(logonResource.getUri().toString());
             HttpPost postRequest = new HttpPost(uriBuilder.build());
 //            postRequest.setHeader("Content-Type", "application/json");
             HttpClient client = new DefaultHttpClient();
@@ -86,7 +87,7 @@ public class SSOHelper {
             throw new IllegalArgumentException("userticket cannot be null or empty!");
         }
         String applicationTokenId = XpathHelper.getAppTokenIdFromAppToken(appTokenXML);
-        String path = tokenServiceResource.path("user/").toString() + applicationTokenId + "/get_usertoken_by_userticket"; // webResource.path("/iam/")
+        String path = tokenServiceResource.path("user/").getUri().toString() + applicationTokenId + "/get_usertoken_by_userticket"; // webResource.path("/iam/")
 
 
         log.trace("Executing get_usertoken_by_userticket, path={}, appToken={}, userticket={}", path, appTokenXML, userticket);
@@ -119,7 +120,7 @@ public class SSOHelper {
         }
 
         String applicationTokenId = XpathHelper.getAppTokenIdFromAppToken(appTokenXML);
-        String path = tokenServiceResource.path("user/").toString() + applicationTokenId + "/get_usertoken_by_usertokenid"; // webResource.path("/iam/")
+        String path = tokenServiceResource.path("user/").getUri().toString() + applicationTokenId + "/get_usertoken_by_usertokenid"; // webResource.path("/iam/")
         log.trace("Executing get_usertoken_by_usertokenid, path={}, appToken={}, usertokenid={}", path, appTokenXML, usertokenID);
         try {
             List<NameValuePair> postParameters = new ArrayList<>();

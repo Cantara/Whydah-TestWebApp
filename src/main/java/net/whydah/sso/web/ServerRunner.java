@@ -2,8 +2,8 @@ package net.whydah.sso.web;
 
 import net.whydah.sso.config.AppConfig;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -27,7 +27,10 @@ public class ServerRunner {
 
     public ServerRunner() {
         server = new Server(PORT_NO);
-        ServletContextHandler context = new ServletContextHandler(server, "/test");
+        // Jetty 12's ServletContextHandler has no (Server, String) constructor;
+        // Jetty 9's attached the handler to the server as a side effect.
+        ServletContextHandler context = new ServletContextHandler("/test");
+        server.setHandler(context);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet();
         dispatcherServlet.setContextConfigLocation("classpath:webapp/sso/mvc-config.xml");
